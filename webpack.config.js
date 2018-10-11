@@ -1,4 +1,7 @@
 let path = require('path');
+let MiniCssExtractPlugin = require('mini-css-extract-plugin');
+let isProduction = process.env.NODE_ENV === 'production';
+
 let conf = {
     entry: './src/index.js',
     output: {
@@ -21,9 +24,18 @@ let conf = {
                         plugins: [require('@babel/plugin-proposal-object-rest-spread')]
                     }
                 }
+            },
+            {
+                test: /\.less$/, // .less and .css
+                use: [
+                    isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
+                    'css-loader',
+                    'less-loader'
+                ],
             }
         ]
-    }
+    },
+    plugins: isProduction ? [new MiniCssExtractPlugin()] : []
 };
 
 module.exports = (env, options) => {

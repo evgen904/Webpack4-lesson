@@ -1,8 +1,9 @@
-//import $ from 'jquery';
-//import avg from './some.js';
+import './my-styles.less';
+import $ from 'jquery';
+import avg from './some.js';
 import some from './some.js';
 
-//$('.title').html('Text primer');
+$('.title').html('Text primer');
 
 
 console.log(some.avg(1,4,8));

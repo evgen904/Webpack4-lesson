@@ -1,6 +1,4 @@
 let path = require('path');
-let MiniCssExtractPlugin = require('mini-css-extract-plugin');
-let isProduction = process.env.NODE_ENV === 'production';
 
 let conf = {
     entry: './src/index.js',
@@ -26,16 +24,26 @@ let conf = {
                 }
             },
             {
-                test: /\.less$/, // .less and .css
+                test: /\.less$/,
                 use: [
-                    isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
-                    'css-loader',
-                    'less-loader'
-                ],
+                    {
+                        loader: "style-loader"
+                    },
+                    {
+                        loader: "css-loader",
+                        options: {
+                            sourceMap: true,
+                            modules: true,
+                            localIdentName: "[local]___[hash:base64:5]"
+                        }
+                    },
+                    {
+                        loader: "less-loader"
+                    }
+                ]
             }
         ]
-    },
-    plugins: isProduction ? [new MiniCssExtractPlugin()] : []
+    }
 };
 
 module.exports = (env, options) => {
